@@ -11,13 +11,7 @@ namespace ExtendedContentCopy.EditMode
     /// </summary>
     public class ExtendedContentCopyModuleViewModel : CmsModuleViewModel
     {
-        public bool CommandEnabled { get; set; }
-
-        public bool CopyDescendants { get; set; }
-
-        public bool CopyAllLanguageBranches { get; set; }
-
-        public bool PublishOnDestination { get; set; }
+        public ExtendedContentCopyOptions.CommandOptions Command { get; private set; }
 
         public ExtendedContentCopyModuleViewModel(ShellModule shellModule,
             IClientResourceService clientResourceService,
@@ -25,10 +19,7 @@ namespace ExtendedContentCopy.EditMode
             ExtendedContentCopyOptions options) :
             base(shellModule, clientResourceService, contentRepositoryDescriptors)
         {
-            CommandEnabled = options.Command.Enabled;
-            PublishOnDestination = options.Command.PublishOnDestination;
-            CopyAllLanguageBranches = options.Command.CopyAllLanguageBranches;
-            CopyDescendants = options.Command.CopyDescendants;
+            Command = options.Command;
         }
     }
 }

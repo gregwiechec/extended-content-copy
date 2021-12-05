@@ -351,6 +351,10 @@
     <Content Include="ClientResources\Styles\LayoutIcons.css" />
     <Content Include="ClientResources\Styles\Styles.css" />
     <Content Include="favicon.ico" />
+    <Content Include="modules\_protected\extended-content-copy\1.0.0\scripts\ContentContextMenuCommandProvider-initialization.js" />
+    <Content Include="modules\_protected\extended-content-copy\1.0.0\scripts\ContentHierarchyService-initialization.js" />
+    <Content Include="modules\_protected\extended-content-copy\1.0.0\scripts\extended-content-paste-command.js" />
+    <Content Include="modules\_protected\extended-content-copy\1.0.0\scripts\moduleInitializer.js" />
     <Content Include="Resources\LanguageFiles\ContentTypeNames.xml" />
     <Content Include="Resources\LanguageFiles\Display.xml" />
     <Content Include="Resources\LanguageFiles\EditorHints.xml" />

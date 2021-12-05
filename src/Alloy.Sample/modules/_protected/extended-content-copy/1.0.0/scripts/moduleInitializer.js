@@ -21,13 +21,13 @@
         initialize: function () {
             this.inherited(arguments);
 
-            //ApplicationSettings.configurationContainerLinks = this._settings.configurationContainerLinks || [];
+            ApplicationSettings.extendedContentCopy = this._settings.command || {};
 
-            //if (this._settings.command.enabled) {
+            if (this._settings.command.enabled) {
 				contentHierarchyServiceInitialization();
 				contentContextMenuCommandProviderInitialization();
 				navigationTreePluginArea.add(ExtendedContentPaste);
-            //}
+            }
         }
     });
 });

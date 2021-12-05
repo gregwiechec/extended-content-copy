@@ -2,29 +2,30 @@ define([
     "dojo/_base/declare",
     "epi/shell/command/_Command",
 	"epi-cms/command/PasteContent",
-    "epi-cms/ApplicationSettings"
+    "epi-cms/ApplicationSettings",
+	"./extended-content-copy-dialog"
 ], function (
     declare,
     _Command,
 	PasteContent,
-	ApplicationSettings
+	ApplicationSettings,
+	extendedCopyDialog
 ) {
     return declare([PasteContent], {
         label: "Extended paste",
 
         _execute: function () {
-			this.model.service.extraPasteHeaders = {
-				extendedPaste: "true",
-				extendedPastePublish: "false",
-				extendedPasteLanguages: "false",
-				extendedPasteDescendants: "false"
-			};
-			var result = this.inherited(arguments);
-			return result.then(function() {
-				this.model.service.extraPasteHeaders = null;
-			}.bind(this)).otherwise(function() {
-				this.model.service.extraPasteHeaders = null;
-			}.bind(this));
+			extendedCopyDialog().then(function(extraPasteHeaders) {
+				this.model.service.extraPasteHeaders = extraPasteHeaders;
+				
+				var result = this.inherited(arguments);
+				return result.then(function() {
+					this.model.service.extraPasteHeaders = null;
+				}.bind(this)).otherwise(function() {
+					this.model.service.extraPasteHeaders = null;
+				}.bind(this));
+			}.bind(this))
+			.otherwise(function() { });
         },
 		
 		 _onModelChange: function () {
