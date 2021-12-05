@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 /src/Alloy.Sample/App_Data/blobs
 /src/Alloy.Sample/modules/_protected/extended-content-copy/1.0.0/scripts/.idea
+buildoutput/
