@@ -15,10 +15,12 @@ define([
         label: "Extended paste",
 
         _execute: function () {
+        	var args = arguments;
+
 			extendedCopyDialog().then(function(extraPasteHeaders) {
 				this.model.service.extraPasteHeaders = extraPasteHeaders;
-				
-				var result = this.inherited(arguments);
+
+				var result = this.inherited(args);
 				return result.then(function() {
 					this.model.service.extraPasteHeaders = null;
 				}.bind(this)).otherwise(function() {
@@ -27,7 +29,7 @@ define([
 			}.bind(this))
 			.otherwise(function() { });
         },
-		
+
 		 _onModelChange: function () {
 			 if (this.clipboard.copy) {
 				this.inherited(arguments);
@@ -43,7 +45,7 @@ define([
 			}
 			this.inherited(arguments);
 		},
-		
+
 		watchSelectionChange: function() {
 			if (!this.selection) {
 				return;
