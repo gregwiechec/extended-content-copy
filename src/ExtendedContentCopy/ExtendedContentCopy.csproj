@@ -160,6 +160,11 @@
   <ItemGroup>
     <Compile Include="EditMode\ExtendedContentCopyModuleViewModel.cs" />
     <Compile Include="EditMode\ExtendedContentCopyModuleViewModelModule.cs" />
+    <Compile Include="ExtendedContentCopyHandler.cs" />
+    <Compile Include="ExtendedContentCopyInitialization.cs" />
+    <Compile Include="ExtendedContentCopyOptions.cs" />
+    <Compile Include="IPasteOptionsLoader.cs" />
+    <Compile Include="PredefinedOptionsMerger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

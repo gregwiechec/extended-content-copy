@@ -14,7 +14,10 @@ define([
 
         _execute: function () {
 			this.model.service.extraPasteHeaders = {
-				extendedCopy: true
+				extendedPaste: "true",
+				extendedPastePublish: "false",
+				extendedPasteLanguages: "false",
+				extendedPasteDescendants: "false"
 			};
 			var result = this.inherited(arguments);
 			return result.then(function() {
