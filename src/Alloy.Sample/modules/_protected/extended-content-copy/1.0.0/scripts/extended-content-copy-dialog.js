@@ -7,7 +7,8 @@
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
 
-	"epi/shell/widget/dialog/Dialog"
+	"epi/shell/widget/dialog/Dialog",
+    "epi-cms/ApplicationSettings",
 ], function (
     declare,
     Deferred,
@@ -17,22 +18,38 @@
     _TemplatedMixin,
     _WidgetsInTemplateMixin,
 
-	Dialog
+	Dialog,
+    ApplicationSettings
 ) {
 	var template = `<div style="width: 300px;">
-		<div>
+		<div data-dojo-attach-point="publishAvailable">
 			<input id="extendedPastePublishOnCopy" name="extendedPastePublishOnCopy" data-dojo-attach-point="publishOnCopy" data-dojo-type="dijit/form/CheckBox" checked /> <label for="extendedPastePublishOnCopy">Publish on copy</label>
 		</div>
-		<div>
-			<input id="extendedPasteLanguages" name="extendedPasteLanguages" data-dojo-attach-point="languages" data-dojo-type="dijit/form/CheckBox" checked /> <label for="extendedPasteLanguages">Publish all languages</label>
+		<div data-dojo-attach-point="languagesAvailable">
+			<input id="extendedPasteLanguages" name="extendedPasteLanguages" data-dojo-attach-point="allLanguages" data-dojo-type="dijit/form/CheckBox" checked /> <label for="extendedPasteLanguages">Publish all languages</label>
 		</div>
-		<div>
+		<div data-dojo-attach-point="descendantsAvailable">
 			<input id="extendedPasteDescendants" name="extendedPasteDescendants" data-dojo-attach-point="descendants" data-dojo-type="dijit/form/CheckBox" checked /> <label for="extendedPasteDescendants">Copy descendants</label>
 		</div>
 	</div>`;
 
     var DialogContent = declare([_Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
+
+        postCreate: function () {
+            // call base implementation
+            this.inherited(arguments);
+
+            var defaults = ApplicationSettings.extendedContentPasteDefaults || {};
+            this.publishOnCopy.checked = defaults.publishOnDestination;
+            this.allLanguages = defaults.copyAllLanguageBranches;
+            this.descendants = defaults.copyDescendants;
+
+            var available = ApplicationSettings.extendedContentCopy || {};
+            this.publishAvailable.classList.toggle("dijitHidden", !available.publishOnDestination);
+            this.languagesAvailable.classList.toggle("dijitHidden", !available.copyAllLanguageBranches);
+            this.descendantsAvailable.classList.toggle("dijitHidden", !available.copyDescendants);
+        },
 
 		_getCheckboxValue: function(checkbox) {
 			return checkbox.checked ? "true": "false";
@@ -42,7 +59,7 @@
 			return {
 				extendedPaste: "true",
 				extendedPastePublish: this._getCheckboxValue(this.publishOnCopy),
-				extendedPasteLanguages: this._getCheckboxValue(this.languages),
+				extendedPasteLanguages: this._getCheckboxValue(this.allLanguages),
 				extendedPasteDescendants: this._getCheckboxValue(this.descendants),
 			};
 		}

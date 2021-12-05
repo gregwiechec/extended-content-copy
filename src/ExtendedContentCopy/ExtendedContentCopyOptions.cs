@@ -33,7 +33,7 @@ namespace ExtendedContentCopy
 
         public class Defaults
         {
-            public bool PublishOnDestination { get; set; } = true;
+            public bool PublishOnDestination { get; set; } = false;
 
             public bool CopyAllLanguageBranches { get; set; } = true;
 
@@ -48,7 +48,7 @@ namespace ExtendedContentCopy
 
             public bool CopyAllLanguageBranches { get; set; } = true;
 
-            public bool CopyDescendants { get; set; } = true;
+            public bool CopyDescendants { get; set; } = false;
         }
     }
 

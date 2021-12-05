@@ -13,6 +13,8 @@ namespace ExtendedContentCopy.EditMode
     {
         public ExtendedContentCopyOptions.CommandOptions Command { get; private set; }
 
+        public ExtendedContentCopyOptions.Defaults PasteDefaults { get; set; }
+
         public ExtendedContentCopyModuleViewModel(ShellModule shellModule,
             IClientResourceService clientResourceService,
             IEnumerable<IContentRepositoryDescriptor> contentRepositoryDescriptors,
@@ -20,6 +22,7 @@ namespace ExtendedContentCopy.EditMode
             base(shellModule, clientResourceService, contentRepositoryDescriptors)
         {
             Command = options.Command;
+            PasteDefaults = options.PasteDefaults;
         }
     }
 }

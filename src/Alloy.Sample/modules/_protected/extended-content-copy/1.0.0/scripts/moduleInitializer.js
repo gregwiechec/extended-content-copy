@@ -22,6 +22,7 @@
             this.inherited(arguments);
 
             ApplicationSettings.extendedContentCopy = this._settings.command || {};
+            ApplicationSettings.extendedContentPasteDefaults = this._settings.pasteDefaults || {};
 
             if (this._settings.command.enabled) {
 				contentHierarchyServiceInitialization();
