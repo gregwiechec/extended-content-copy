@@ -61,7 +61,7 @@ namespace ExtendedContentCopy
             bool publishOnDestination)
         {
             // when options is not "enabled" then return default
-            if (!_extendedContentCopyOptions.Enabled)
+            if (!_extendedContentCopyOptions.Enabled) //TODO: extended copy - add mode Off, Automatic, Command. Remove command enabled, remove enabled
             {
                 return _contentCopyHandler.Copy(contentLink, destinationLink, requiredSourceAccess, publishOnDestination);
             }
