@@ -9,90 +9,45 @@ using EPiServer.Core;
 using EPiServer.Core.Transfer;
 using EPiServer.DataAccess;
 using EPiServer.Enterprise;
-using EPiServer.Framework.Localization;
 using EPiServer.Logging.Compatibility;
+using EPiServer.Framework.Localization;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
 
 namespace ExtendedContentCopy
 {
-    public class ExtendedContentCopyHandler: IContentCopyHandler
+    public interface IAdvancedContentCopy
     {
-        private static readonly ILog _log = LogManager.GetLogger(typeof(ExtendedContentCopyHandler));
+        ContentReference CopyContent(PasteMode pasteMode, ContentReference contentLink,
+            ContentReference destinationLink, AccessLevel requiredSourceAccess);
+    }
 
-        private readonly IContentCopyHandler _contentCopyHandler;
-        private readonly ExtendedContentCopyOptions _extendedContentCopyOptions;
-        private readonly IUserPasteModeLoader _userPasteModeLoader;
+    [ServiceConfiguration(typeof(IAdvancedContentCopy))]
+    public class AdvancedContentCopy: IAdvancedContentCopy
+    {
+        private static readonly ILog _log = LogManager.GetLogger(typeof(AdvancedContentCopy));
         private readonly IContentRepository _contentRepository;
         private readonly ContentOptions _contentOptions;
         private readonly ServiceAccessor<IDataImporter> _dataImporterAccessor;
         private readonly ServiceAccessor<IDataExporter> _dataExporterAccessor;
 
-        public ExtendedContentCopyHandler(IContentCopyHandler contentCopyHandler,
-            ExtendedContentCopyOptions extendedContentCopyOptions,
-            IContentRepository contentRepository,
-            IUserPasteModeLoader userPasteModeLoader,
-            ContentOptions contentOptions,
-            ServiceAccessor<IDataImporter> dataImporterAccessor,
-            ServiceAccessor<IDataExporter> dataExporterAccessor)
+        public AdvancedContentCopy(IContentRepository contentRepository, ContentOptions contentOptions,
+            ServiceAccessor<IDataImporter> dataImporterAccessor, ServiceAccessor<IDataExporter> dataExporterAccessor)
         {
-            _contentCopyHandler = contentCopyHandler;
-            _extendedContentCopyOptions = extendedContentCopyOptions;
-            _userPasteModeLoader = userPasteModeLoader;
+            _contentRepository = contentRepository;
             _contentOptions = contentOptions;
             _dataImporterAccessor = dataImporterAccessor;
             _dataExporterAccessor = dataExporterAccessor;
-            _contentRepository = contentRepository;
         }
 
-        public ExtendedContentCopyHandler(IContentCopyHandler contentCopyHandler, IServiceLocator serviceLocator) :
-            this(contentCopyHandler,
-                serviceLocator.GetInstance<ExtendedContentCopyOptions>(),
-                serviceLocator.GetInstance<IContentRepository>(),
-                serviceLocator.GetInstance<IUserPasteModeLoader>(),
-                serviceLocator.GetInstance<ContentOptions>(),
-                serviceLocator.GetInstance<IDataImporter>,
-                serviceLocator.GetInstance<IDataExporter>
-            )
-        {
-        }
 
-        public ContentReference Copy(ContentReference contentLink, ContentReference destinationLink, AccessLevel requiredSourceAccess,
-            bool publishOnDestination)
-        {
-            // when options is not "enabled" then return default
-            if (!_extendedContentCopyOptions.Enabled) //TODO: extended copy - add mode Off, Automatic, Command. Remove command enabled, remove enabled
-            {
-                return _contentCopyHandler.Copy(contentLink, destinationLink, requiredSourceAccess, publishOnDestination);
-            }
-
-            // when paste mode was not sent from client then return default
-            var pasteMode = _userPasteModeLoader.Load();
-            if (pasteMode == null)
-            {
-                return _contentCopyHandler.Copy(contentLink, destinationLink, requiredSourceAccess, publishOnDestination);
-            }
-
-            pasteMode = PredefinedOptionsMerger.Merge(pasteMode, _extendedContentCopyOptions);
-
-            // this one special case can be handled by built-in Copy method
-            if (pasteMode.CopyAllLanguageBranches != true &&
-                pasteMode.CopyDescendants != true &&
-                pasteMode.PublishOnDestination == true)
-            {
-                return _contentCopyHandler.Copy(contentLink, destinationLink, requiredSourceAccess, true);
-            }
-
-            return CopyContent(pasteMode, contentLink, destinationLink, requiredSourceAccess);
-        }
-
-        private ContentReference CopyContent(PasteMode pasteMode, ContentReference contentLink, ContentReference destinationLink, AccessLevel requiredSourceAccess)
+        public ContentReference CopyContent(PasteMode pasteMode, ContentReference contentLink, ContentReference destinationLink, AccessLevel requiredSourceAccess)
         {
             var pageCount = _contentRepository.GetDescendents(contentLink).Count() + 1;
 
             var recursionLevel = pasteMode.CopyDescendants == false ? 0 : int.MaxValue;
 
-            var exportSources = new List<ExportSource> {new ExportSource(contentLink, recursionLevel) };
+            var exportSources = new List<ExportSource> { new ExportSource(contentLink, recursionLevel) };
 
             var languageCode = Thread.CurrentThread.CurrentUICulture.Name;
 
@@ -128,7 +83,7 @@ namespace ExtendedContentCopy
                     {
                         TransferType = TypeOfTransfer.Copying,
                         EnsureContentNameUniqueness = true,
-                        SaveAction = (SaveAction) ((pasteMode.PublishOnDestination.Value ? 3 : 6) | 512),
+                        SaveAction = (SaveAction)((pasteMode.PublishOnDestination.Value ? 3 : 6) | 512),
                     };
                     if (pasteMode.CopyAllLanguageBranches == false)
                     {

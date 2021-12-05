@@ -5,7 +5,7 @@
     /// </summary>
     internal static class PredefinedOptionsMerger
     {
-        public static PasteMode Merge(PasteMode userPasteMode, ExtendedContentCopyOptions options)
+        public static PasteMode MergeWithAvailableOptions(PasteMode userPasteMode, ExtendedContentCopyOptions options)
         {
             var pasteMode = new PasteMode(userPasteMode);
 

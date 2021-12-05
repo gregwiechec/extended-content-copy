@@ -14,11 +14,6 @@ namespace ExtendedContentCopy
         public ExtendedContentCopyMode Mode { get; set; } = ExtendedContentCopyMode.Command;
 
         /// <summary>
-        /// When true, then addon is active. Default <see langword="true"/>
-        /// </summary>
-        public bool Enabled { get; set; } = true;
-
-        /// <summary>
         /// Allows to configure available paste actions
         /// </summary>
         public AllowedActions AllowedPasteActions { get; private set; } = new AllowedActions();

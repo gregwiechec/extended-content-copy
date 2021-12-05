@@ -24,7 +24,7 @@ namespace ExtendedContentCopy
         private static void Context_ConfigurationComplete(object sender, ServiceConfigurationEventArgs e)
         {
             e.Services.Intercept<IContentCopyHandler>((locator, defaultContentCopyHandler) =>
-                new ExtendedContentCopyHandler(defaultContentCopyHandler, locator));
+                new CustomContentCopyHandler(defaultContentCopyHandler, locator));
         }
     }
 }

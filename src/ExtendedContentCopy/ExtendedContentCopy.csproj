@@ -158,12 +158,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdvancedContentCopy.cs" />
     <Compile Include="EditMode\ExtendedContentCopyModuleViewModel.cs" />
     <Compile Include="EditMode\ExtendedContentCopyModuleViewModelModule.cs" />
-    <Compile Include="ExtendedContentCopyHandler.cs" />
+    <Compile Include="CustomContentCopyHandler.cs" />
     <Compile Include="ExtendedContentCopyInitialization.cs" />
     <Compile Include="ExtendedContentCopyOptions.cs" />
     <Compile Include="IPasteOptionsLoader.cs" />
+    <Compile Include="PasteMode.cs" />
     <Compile Include="PredefinedOptionsMerger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

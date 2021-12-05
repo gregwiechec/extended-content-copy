@@ -11,13 +11,14 @@ namespace Alloy.Sample.Business.Initialization
         public void ConfigureContainer(ServiceConfigurationContext context)
         {
             context.ConfigurationComplete += (o, e) =>
+            {
+                // override default behaviour and allow to copy descendants
+                context.Services.Configure<ExtendedContentCopyOptions>(options =>
                 {
-                    // override default behaviour and allow to copy descendants
-                    context.Services.Configure<ExtendedContentCopyOptions>(options =>
-                        {
-                            options.AllowedPasteActions.CopyDescendants = true;
-                        });
-                };
+                    options.Mode = ExtendedContentCopyOptions.ExtendedContentCopyMode.Auto;
+                    options.AllowedPasteActions.CopyDescendants = true;
+                });
+            };
         }
 
         public void Initialize(InitializationEngine context)

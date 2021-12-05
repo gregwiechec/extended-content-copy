@@ -47,24 +47,4 @@ namespace ExtendedContentCopy
             };
         }
     }
-
-    public class PasteMode
-    {
-        public bool? PublishOnDestination { get; set; }
-
-        public bool? CopyAllLanguageBranches { get; set; }
-
-        public bool? CopyDescendants { get; set; }
-
-        public PasteMode()
-        {
-        }
-
-        public PasteMode(PasteMode other)
-        {
-            PublishOnDestination = other.PublishOnDestination;
-            CopyAllLanguageBranches = other.CopyAllLanguageBranches;
-            CopyDescendants = other.CopyDescendants;
-        }
-    }
 }
