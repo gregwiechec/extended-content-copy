@@ -13,7 +13,15 @@ define([
         label: "Extended paste",
 
         _execute: function () {
-			alert(1);
+			this.model.service.extraPasteHeaders = {
+				extendedCopy: true
+			};
+			var result = this.inherited(arguments);
+			return result.then(function() {
+				this.model.service.extraPasteHeaders = null;
+			}.bind(this)).otherwise(function() {
+				this.model.service.extraPasteHeaders = null;
+			}.bind(this));
         },
 		
 		 _onModelChange: function () {

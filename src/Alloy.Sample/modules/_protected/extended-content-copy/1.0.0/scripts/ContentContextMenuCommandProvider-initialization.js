@@ -4,6 +4,12 @@ define([
 	ContentContextMenuCommandProvider
 ) {
     return function () {
+		
+		//
+		// commands added through navigationTreePluginArea doesn't have access to clipboard, selection and model
+		// We need them, to make extended paste command work similar to default paste command
+		//
+		
         var originalUpdateCommands = ContentContextMenuCommandProvider.prototype._updateCommands;
         ContentContextMenuCommandProvider.prototype._updateCommands = function () {
             originalUpdateCommands.apply(this, arguments);
