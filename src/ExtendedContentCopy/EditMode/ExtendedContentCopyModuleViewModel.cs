@@ -11,9 +11,9 @@ namespace ExtendedContentCopy.EditMode
     /// </summary>
     public class ExtendedContentCopyModuleViewModel : CmsModuleViewModel
     {
-        public ExtendedContentCopyOptions.CommandOptions Command { get; private set; }
-
+        public bool IsCommandAvailable { get; private set; }
         public ExtendedContentCopyOptions.Defaults PasteDefaults { get; set; }
+        public ExtendedContentCopyOptions.AllowedActions AllowedPasteActions { get; set; }
 
         public ExtendedContentCopyModuleViewModel(ShellModule shellModule,
             IClientResourceService clientResourceService,
@@ -21,8 +21,9 @@ namespace ExtendedContentCopy.EditMode
             ExtendedContentCopyOptions options) :
             base(shellModule, clientResourceService, contentRepositoryDescriptors)
         {
-            Command = options.Command;
+            IsCommandAvailable = options.Mode == ExtendedContentCopyOptions.ExtendedContentCopyMode.Command;
             PasteDefaults = options.PasteDefaults;
+            AllowedPasteActions = options.AllowedPasteActions;
         }
     }
 }

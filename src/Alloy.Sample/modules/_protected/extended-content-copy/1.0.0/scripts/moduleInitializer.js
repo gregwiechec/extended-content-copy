@@ -21,10 +21,10 @@
         initialize: function () {
             this.inherited(arguments);
 
-            ApplicationSettings.extendedContentCopy = this._settings.command || {};
-            ApplicationSettings.extendedContentPasteDefaults = this._settings.pasteDefaults || {};
+            ApplicationSettings.extendedPasteDefaults = this._settings.pasteDefaults || {};
+            ApplicationSettings.extendedAllowedPasteActions = this._settings.allowedPasteActions || {};
 
-            if (this._settings.command.enabled) {
+            if (this._settings.isCommandAvailable) {
 				contentHierarchyServiceInitialization();
 				contentContextMenuCommandProviderInitialization();
 				navigationTreePluginArea.add(ExtendedContentPaste);

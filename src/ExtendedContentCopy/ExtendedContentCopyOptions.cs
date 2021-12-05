@@ -9,18 +9,24 @@ namespace ExtendedContentCopy
     public class ExtendedContentCopyOptions
     {
         /// <summary>
+        /// Determinates how plugin should bahave. Default <see langword="ExtendedContentCopyMode.Command"/>
+        /// </summary>
+        public ExtendedContentCopyMode Mode { get; set; } = ExtendedContentCopyMode.Command;
+
+        /// <summary>
         /// When true, then addon is active. Default <see langword="true"/>
         /// </summary>
         public bool Enabled { get; set; } = true;
 
+        /// <summary>
+        /// Allows to configure available paste actions
+        /// </summary>
         public AllowedActions AllowedPasteActions { get; private set; } = new AllowedActions();
 
-        public Defaults PasteDefaults { get; private set; } = new Defaults();
-
         /// <summary>
-        /// edit mode command configuration
+        /// Allows to configure default action values
         /// </summary>
-        public CommandOptions Command { get; private set; } = new CommandOptions();
+        public Defaults PasteDefaults { get; private set; } = new Defaults();
 
         public class AllowedActions
         {
@@ -40,15 +46,22 @@ namespace ExtendedContentCopy
             public bool CopyDescendants { get; set; } = true;
         }
 
-        public class CommandOptions
+        public enum ExtendedContentCopyMode
         {
-            public bool Enabled { get; set; } = true;
+            /// <summary>
+            /// Plugin is off
+            /// </summary>
+            Off,
 
-            public bool PublishOnDestination { get; set; } = true;
+            /// <summary>
+            /// For extendd content paste we are using command
+            /// </summary>
+            Command,
 
-            public bool CopyAllLanguageBranches { get; set; } = true;
-
-            public bool CopyDescendants { get; set; } = false;
+            /// <summary>
+            /// Command is not available and default paste behaviour is overriden
+            /// </summary>
+            Auto
         }
     }
 

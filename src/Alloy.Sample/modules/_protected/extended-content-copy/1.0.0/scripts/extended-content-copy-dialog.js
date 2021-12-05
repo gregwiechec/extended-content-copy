@@ -40,12 +40,12 @@
             // call base implementation
             this.inherited(arguments);
 
-            var defaults = ApplicationSettings.extendedContentPasteDefaults || {};
+            var defaults = ApplicationSettings.extendedPasteDefaults || {};
             this.publishOnCopy.checked = defaults.publishOnDestination;
-            this.allLanguages = defaults.copyAllLanguageBranches;
-            this.descendants = defaults.copyDescendants;
+            this.allLanguages.checked = defaults.copyAllLanguageBranches;
+            this.descendants.checked = defaults.copyDescendants;
 
-            var available = ApplicationSettings.extendedContentCopy || {};
+            var available = ApplicationSettings.extendedAllowedPasteActions || {};
             this.publishAvailable.classList.toggle("dijitHidden", !available.publishOnDestination);
             this.languagesAvailable.classList.toggle("dijitHidden", !available.copyAllLanguageBranches);
             this.descendantsAvailable.classList.toggle("dijitHidden", !available.copyDescendants);
