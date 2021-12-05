@@ -1,40 +1,34 @@
-﻿/*using System.Collections.Generic;
-using System.Linq;
-using ContentChildrenGrouping.Core;
-using ContentChildrenGrouping.Core.Extensions;
+﻿using System.Collections.Generic;
 using EPiServer.Cms.Shell.Internal;
-using EPiServer.Core;
 using EPiServer.Framework.Web.Resources;
 using EPiServer.Shell;
 using EPiServer.Shell.Modules;
 
-namespace ContentChildrenGrouping.VirtualContainers.EditMode
+namespace ExtendedContentCopy.EditMode
 {
-    public class ContentChildrenGroupingModuleViewModel : CmsModuleViewModel
+    /// <summary>
+    /// Extended content copy viewmodel used in edit mode
+    /// </summary>
+    public class ExtendedContentCopyModuleViewModel : CmsModuleViewModel
     {
-        /// <summary>
-        /// List of all configured containers
-        /// </summary>
-        public IEnumerable<string> ConfigurationContainerLinks { get; set; }
+        public bool CommandEnabled { get; set; }
 
-        public bool CustomIconsEnabled { get; set; } = false;
+        public bool CopyDescendants { get; set; }
 
-        public bool SearchCommandEnabled { get; set; } = false;
+        public bool CopyAllLanguageBranches { get; set; }
 
-        public bool VirtualContainersEnabled { get; set; } = false;
+        public bool PublishOnDestination { get; set; }
 
-        public ContentChildrenGroupingModuleViewModel(ShellModule shellModule,
+        public ExtendedContentCopyModuleViewModel(ShellModule shellModule,
             IClientResourceService clientResourceService,
             IEnumerable<IContentRepositoryDescriptor> contentRepositoryDescriptors,
-            IEnumerable<IContentChildrenGroupsLoader> contentChildrenGroupsLoaders,
-            VirtualContainersOptions virtualContainersOptions) :
+            ExtendedContentCopyOptions options) :
             base(shellModule, clientResourceService, contentRepositoryDescriptors)
         {
-            var loaders = contentChildrenGroupsLoaders.ToList();
-            ConfigurationContainerLinks = loaders.GetAllConfigurations().Select(x => x.ContainerContentLink.ToReferenceWithoutVersion().ToString());
-            CustomIconsEnabled = virtualContainersOptions.CustomIconsEnabled;
-            SearchCommandEnabled = virtualContainersOptions.SearchCommandEnabled;
-            VirtualContainersEnabled = virtualContainersOptions.Enabled;
+            CommandEnabled = options.Command.Enabled;
+            PublishOnDestination = options.Command.PublishOnDestination;
+            CopyAllLanguageBranches = options.Command.CopyAllLanguageBranches;
+            CopyDescendants = options.Command.CopyDescendants;
         }
     }
-}*/
+}

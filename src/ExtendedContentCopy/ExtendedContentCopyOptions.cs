@@ -2,6 +2,9 @@
 
 namespace ExtendedContentCopy
 {
+    /// <summary>
+    /// Configuration for extended copy addon
+    /// </summary>
     [Options]
     public class ExtendedContentCopyOptions
     {
@@ -14,6 +17,9 @@ namespace ExtendedContentCopy
 
         public Defaults PasteDefaults { get; private set; } = new Defaults();
 
+        /// <summary>
+        /// edit mode command configuration
+        /// </summary>
         public CommandOptions Command { get; private set; } = new CommandOptions();
 
         public class AllowedActions
